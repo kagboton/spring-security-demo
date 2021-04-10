@@ -20,10 +20,10 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
                .password(passwordEncoder().encode("john")).roles("EMPLOYEE")
                .and()
                .withUser("mary")
-               .password(passwordEncoder().encode("mary")).roles("MANAGER")
+               .password(passwordEncoder().encode("mary")).roles("MANAGER", "EMPLOYEE")
                .and()
                .withUser("admin")
-               .password(passwordEncoder().encode("admin")).roles("ADMIN");
+               .password(passwordEncoder().encode("admin")).roles("ADMIN","EMPLOYEE");
     }
 
     @Bean
