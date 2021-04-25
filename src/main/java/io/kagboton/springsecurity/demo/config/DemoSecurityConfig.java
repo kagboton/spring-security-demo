@@ -1,5 +1,6 @@
 package io.kagboton.springsecurity.demo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,21 +10,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableWebSecurity
 public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    // add a reference to our security data source
+     @Autowired
+     private DataSource securityDataSource;
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth.inMemoryAuthentication()
-               .withUser("john")
-               .password(passwordEncoder().encode("john")).roles("EMPLOYEE")
-               .and()
-               .withUser("mary")
-               .password(passwordEncoder().encode("mary")).roles("MANAGER", "EMPLOYEE")
-               .and()
-               .withUser("admin")
-               .password(passwordEncoder().encode("admin")).roles("ADMIN","EMPLOYEE");
+
+        // use jdbc authentication
+        auth.jdbcAuthentication().dataSource(securityDataSource);
     }
 
     @Bean
