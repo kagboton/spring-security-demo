@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 public class DemoAppConfig implements WebMvcConfigurer {
 
     // set up variable to hold the properties
-
     @Autowired
     private Environment environment;
 
